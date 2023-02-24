@@ -8,7 +8,9 @@ const router = express.Router()
 
 router.get('/', (req, res)=>{
     const todos = controlador.todos()
-    respuesta.succes(req, res, todos, 200)
+    .then((items)=>{
+        respuesta.succes(req, res, items, 200)
+    })
 
 })
 
