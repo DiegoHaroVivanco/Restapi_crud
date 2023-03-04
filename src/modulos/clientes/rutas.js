@@ -1,4 +1,5 @@
 const express = require('express')
+const { agregar } = require('../../DB/mysql')
 
 const respuesta = require('../../red/respuestas')
 const controlador = require('./controlador')
@@ -7,8 +8,8 @@ const router = express.Router()
 
 router.get('/', todos) // separo las rutas de la funcionalidad
 router.get('/:id', unElem)
-
 router.put('/', eliminar)
+router.post('/', agregarItem)
 
 async function todos (req, res,next){
     try {
@@ -33,6 +34,24 @@ async function unElem (req, res,next){
     }
 
 }
+
+async function agregarItem (req, res, next){
+    try {
+        const items = await controlador.agregar(req.body)
+        if(req.body.id === 0){ // = 0 es que es nuevo y se tiene que agregar
+            mensaje = 'Item guardado exitosamente'
+        }else{ 
+            mensaje = 'Item actualizado con exito'
+        }
+        respuesta.succes(req, res, mensaje, 201)
+        
+    } catch (error) {
+        // respuesta.error(req, res, error, 500)
+        next(error)        
+    }
+
+}
+
 
 async function eliminar (req, res, next){
     try {

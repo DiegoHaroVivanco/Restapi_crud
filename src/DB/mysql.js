@@ -54,8 +54,31 @@ const unaData = (tabla, id) =>{
     })
 }
 
-const agregar = (tabla, data) =>{
+const insertar = (tabla, data) =>{
 
+    return new Promise((resolve, reject) =>{
+        conexion.query(`INSERT INTO ${tabla} SET ?`,data, (error, result)=>{
+            return error ? reject(error) : resolve(result) 
+        })
+    })
+}
+
+const actualizar = (tabla, data) =>{
+
+    return new Promise((resolve, reject) =>{
+        conexion.query(`UPDATE ${tabla} SET ? WHERE id = ?`,[data, data.id], (error, result)=>{
+            return error ? reject(error) : resolve(result) 
+        })
+    })
+}
+
+const agregar = (tabla, data) =>{
+    // si la data existe y es un nuevo registro
+    if(data && data.id == 0){
+        return insertar(tabla, data)
+    }else{ // se tiene que actualizar el registro que estaba guardado
+        return actualizar(tabla, data)
+    }
 }
 
 const eliminar = (tabla, data) =>{
