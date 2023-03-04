@@ -40,25 +40,33 @@ const prueba = {
 const todaData = (tabla) =>{
     return new Promise((resolve, reject) =>{
         conexion.query(`SELECT * FROM ${tabla}`, (error, result)=>{
-            if(error){
-                return reject(error)
-            }else
-                resolve(result)
+            return error ? reject(error) : resolve(result) 
+
         })
     })
 }
 
 const unaData = (tabla, id) =>{
-
+    return new Promise((resolve, reject) =>{
+        conexion.query(`SELECT * FROM ${tabla} WHERE id=${id}`, (error, result)=>{
+            return error ? reject(error) : resolve(result) 
+        })
+    })
 }
 
 const agregar = (tabla, data) =>{
 
 }
 
-const eliminar = (tabla, id) =>{
+const eliminar = (tabla, data) =>{
 
+    return new Promise((resolve, reject) =>{
+        conexion.query(`DELETE FROM ${tabla} WHERE id = ?`,data.id, (error, result)=>{
+            return error ? reject(error) : resolve(result) 
+        })
+    })
 }
+
 
 module.exports = {
     todaData,
