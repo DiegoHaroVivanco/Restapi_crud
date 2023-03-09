@@ -2,28 +2,38 @@ const db = require('../../DB/mysql')
 
 const TABLA = 'clientes' // tabla a la que quiero acceder
 
-function todos(){
-    return db.todaData(TABLA)
-}
 
-function unaData(id){
-    return db.unaData(TABLA, id)
-}
+module.exports = (dbInjected)=>{
 
-function agregar(body){
-    return db.agregar(TABLA, body)
+    let db = dbInjected
+    if(!db){ // no existe la db o está corrupta
+        db = require('../../DB/mysql')
+    }
 
-}
-
-function eliminar(body){
-    return db.eliminar(TABLA, body)
-
-}
-
-module.exports = {
-    todos,
-    unaData,
-    agregar,
-    eliminar
+    function todos(){
+        return db.todaData(TABLA)
+    }
+    
+    function unaData(id){
+        return db.unaData(TABLA, id)
+    }
+    
+    function agregar(body){
+        return db.agregar(TABLA, body)
+    
+    }
+    
+    function eliminar(body){
+        return db.eliminar(TABLA, body)
+    
+    }
+        
+    return{
+        todos,
+        unaData,
+        agregar,
+        eliminar
+    }
+        
 }
 

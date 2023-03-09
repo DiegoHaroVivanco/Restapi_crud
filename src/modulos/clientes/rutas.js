@@ -2,7 +2,7 @@ const express = require('express')
 const { agregar } = require('../../DB/mysql')
 
 const respuesta = require('../../red/respuestas')
-const controlador = require('./controlador')
+const controlador = require('./index')
 
 const router = express.Router()
 
