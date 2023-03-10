@@ -1,7 +1,4 @@
-// const db = require('../../DB/mysql')
-
-const TABLA = 'clientes' // tabla a la que quiero acceder
-
+const TABLA = 'usuarios' // tabla a la que quiero acceder
 
 module.exports = (dbInjected)=>{
 

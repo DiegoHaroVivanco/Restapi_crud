@@ -3,6 +3,7 @@ const config = require('./config')
 const morgan = require('morgan')
 const clientes = require('./modulos/clientes/rutas')
 const error = require('./red/errors')
+const usuarios = require('./modulos/usuarios/rutas')
 
 const app = express()
 
@@ -16,7 +17,7 @@ app.set('port', config.app.port)
 
 // rutas
 app.use('/api/clientes', clientes)
-
+app.use('/api/usuarios', usuarios)
 app.use(error)
 
 module.exports = app
