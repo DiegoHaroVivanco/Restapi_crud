@@ -91,10 +91,20 @@ const eliminar = (tabla, data) =>{
     })
 }
 
+const query = (tabla, consulta) =>{
+
+    return new Promise((resolve, reject) =>{
+        conexion.query(`SELECT * FROM ${tabla} WHERE ?`,consulta, (error, result)=>{
+            return error ? reject(error) : resolve(result[0]) 
+        })
+    })
+}
+
 
 module.exports = {
     todaData,
     unaData,
     agregar,
-    eliminar
+    eliminar,
+    query
 }

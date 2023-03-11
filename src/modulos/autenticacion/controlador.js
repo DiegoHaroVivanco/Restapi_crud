@@ -1,4 +1,5 @@
 const TABLA = 'auth' // tabla a la que quiero acceder
+const auth = require('../../auth')
 const bcrypt = require('bcrypt')
 
 module.exports = (dbInjected)=>{
@@ -8,14 +9,24 @@ module.exports = (dbInjected)=>{
         db = require('../../DB/mysql')
     }
 
-    // function todos(){
-    //     return db.todaData(TABLA)
-    // }
-    
-    // function unaData(id){
-    //     return db.unaData(TABLA, id)
-    // }
-    
+    async function login(usuario, password){
+        const data = await db.query(TABLA, {usuario: usuario})
+        if(data) {
+            return bcrypt.compare(password, data.password)
+            .then(resultado =>{
+                if(resultado){
+                    // genero el token
+                    return auth.asignarToken({...data})
+                }else{
+                    throw new Error('Información invalida')
+                }
+            })
+        }else{
+            throw new Error('Información invalida')
+        }
+
+    }
+
     async function agregar(data){
         const authData = {
             id: data.id
@@ -31,14 +42,9 @@ module.exports = (dbInjected)=>{
     
     }
     
-    // function eliminar(body){
-    //     return db.eliminar(TABLA, body)
-    
-    // }
-        
     return{
         agregar,
-
+        login
     }
         
 }
