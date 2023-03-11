@@ -1,6 +1,7 @@
 const express = require('express')
 const { agregar } = require('../../DB/mysql')
 
+const seguridad = require('./seguridad')
 const respuesta = require('../../red/respuestas')
 const controlador = require('./index')
 
@@ -8,8 +9,8 @@ const router = express.Router()
 
 router.get('/', todos) // separo las rutas de la funcionalidad
 router.get('/:id', unElem)
-router.put('/', eliminar)
-router.post('/', agregarItem)
+router.put('/', seguridad(), eliminar)
+router.post('/', seguridad(),agregarItem)
 
 async function todos (req, res,next){
     try {
@@ -46,7 +47,7 @@ async function agregarItem (req, res, next){
         respuesta.succes(req, res, mensaje, 201)
         
     } catch (error) {
-        // respuesta.error(req, res, error, 500)
+        //respuesta.error(req, res, error, 401)
         next(error)        
     }
 
